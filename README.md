@@ -7,8 +7,7 @@
 
 
 ## Description
-This is a simple web based application for Instagram features like posting,liking and commenting on images.
-	
+A web application where developers can be a able to post their projects and other developers can be able to vote and gauge their views on the application.
 ## Technologies
 The project is created with:
 * HTML:5 for giving the structure of the webpage.
