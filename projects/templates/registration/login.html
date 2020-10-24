@@ -1,0 +1,72 @@
+{%extends "registration/base.html"%}
+{% load bootstrap3 %}
+{% load static%}
+
+{% block styles %}
+  {% bootstrap_css %}
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <!-- Empty div -->
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-3" style="text-align: right;">
+      <img src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'images/award.png' %}" class="img-fluid image"
+        style="margin-top:13%;height: 90vh; width: 60vh; border-radius: 8px;">
+    </div>
+    <div class="col-md-5">
+
+      <div class="card" style="margin-top:7%;padding-left: 10%;border-radius:3%;">
+
+        <div class="card-heading">
+            <h4 style="">Awards Gallery</h4>
+          {%if name%}
+          <strong><p class="text-secondary" style="font-size:17px;">{{name}} to see posted projects.</p></strong>
+          {%else%}
+          <strong><p class="text-secondary" style="font-size:17px;">Login</p></strong>
+          {%endif%}
+        </div>
+        {% if form.errors %}
+        <p class="text-danger"> Some Information Might be Incorrect!!</p>
+        {% endif %}
+        <form class="card-body" action="/accounts/login/" method="post">
+          {% csrf_token %}
+          {% for field in form %}
+          <div class="fieldWrapper">
+            <p></p><strong>{{ field.label_tag }}</strong></p> {{ field }}
+            {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+            {% endif %}
+          </div>
+          {% endfor %}
+
+          <div class="form-group" style="margin-top:5%;">
+            {%if name%}
+            <input type="submit" class="btn btn-primary btn-sm" value="{{name}}">
+            <p>Already have an account? <a class='btn btn-default' href="/accounts/login">Login</a></p>
+            {%else%}
+            <input type="submit" class="btn btn-primary btn-sm" value="Login">
+            <p>Don't have an account? <a href="{%url 'signup'%}">Sign Up</a></p>
+            {%endif%}
+          </div>
+
+          <input type="hidden" name="next" value="{{next}}">
+
+        </form>
+
+      </div>
+
+    </div>
+    <!-- empty div -->
+    <div class="col-md-1"></div>
+  </div>
+</div>
+
+{% endblock %}
