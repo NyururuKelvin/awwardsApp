@@ -1,3 +1,7 @@
 from django.shortcuts import render
+from django.http  import HttpResponse
 
-# Create your views here.
+# Views
+def index(request):
+    # Default view
+    return HttpResponse('Welcome to Projects Gallery')
