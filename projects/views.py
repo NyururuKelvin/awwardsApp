@@ -42,6 +42,21 @@ def project(request,project_id):
         if mean:
             return render(request, 'project/project.html',{'project':project,'votes':votes,'votes_list':votes_list,'mean':mean})
 
+def new_project(request):
+    current_user=request.user
+    if request.method=='POST':
+        form=PostProject(request.POST,request.FILES)
+        if form.is_valid():
+            project=form.save(commit=False)
+            project.user=current_user
+            project.save()
+        return redirect('project:project_index')
+    
+    else:
+        form=PostProject()
+        
+    return render(request,'project/new_project.html',{'form':form})
+
 def vote(request, project_id):
     project=get_object_or_404(Project, pk=project_id)
     votes=Votes()
