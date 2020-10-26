@@ -60,7 +60,7 @@
             </div>
 
             <div id="js-user-details" class="item logged has-tablet" data-user='{&quot;username&quot;:&quot;NYURURU&quot;,&quot;id&quot;:984601,&quot;displayName&quot;:&quot;Amimo&quot;}'>
-              {% if user.is_authenticated %}
+              
               <div class="bt-dropdown bt-menu-user">
                 <a href="{% url 'profile' %}" class="js-has-name text-black text-uppercase">{{user.username}}</a>
                 <figure class="avatar">
@@ -78,7 +78,7 @@
                   </li>
                 </ul>
               </div>
-              {% endif %}
+              
             </div>         
             <div class="item has-tablet" id="bt-submit"><a href="{% url 'new_project'%}" class="button"><span>SUBMIT YOUR PROJECT!</span></a></div>
           </div>

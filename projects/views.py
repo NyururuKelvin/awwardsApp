@@ -2,7 +2,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.http  import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Project,Votes
-from .forms import PostProject,UpdateUser,UpdateProfile,Votes
+from .forms import PostProject,UpdateUser,UpdateProfile,SignUpForm
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
