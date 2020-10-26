@@ -20,17 +20,19 @@ def index(request):
     # Default view
     projects = Project.objects.all()
     profiles = Profile.objects.all()
-    return render(request,'project/project.html', {'projects':projects, 'profiles':profiles})
+    return render(request,'project/index.html', {'projects':projects, 'profiles':profiles})
 
 # User profile view
+@login_required
 def profile(request):
     return render(request,'project/profile.html')
 
 #specific project
-def project(request,):
-    project=Project.objects.all()
+@login_required
+def project(request,project_id):
+    project=get_object_or_404(Project,pk=project_id)
     votes=Votes()
-    votes_list=vote.votes_set.all()
+    votes_list=project.votes_set.all()
     for vote in votes_list:
         vote_mean=[]
         usability=vote.usability
@@ -44,6 +46,10 @@ def project(request,):
         if mean:
             return render(request, 'project/project.html',{'project':project,'votes':votes,'votes_list':votes_list,'mean':mean})
 
+        
+    return render(request, 'project/project.html',{'project':project,'votes':votes,'votes_list':votes_list})
+
+@login_required
 def new_project(request):
     current_user=request.user
     if request.method=='POST':
@@ -59,24 +65,10 @@ def new_project(request):
         
     return render(request,'project/new_project.html',{'form':form})
 
+@login_required
 def posted_by(request, user_id):
     user=get_object_or_404(User,pk=user_id)
     return render(request,'project/posted_by.html', {'user':user})
-
-def update_settings(request):
-    update_user=UpdateUser(request.POST,instance=request.user)
-    update_profile=UpdateProfile(request.POST,request.FILES,instance=request.user.profile)
-    if update_user.is_valid() and update_profile.is_valid():
-        update_user.save()
-        update_profile.save()
-        
-        messages.success(request, 'Profile Updated Successfully')
-        return redirect('profile')
-    
-    else:
-        update_user=UpdateUser(instance=request.user)
-        update_profile=UpdateProfile(instance=request.user.profile)
-    return render(request, 'project/update_profile.html',{'update_user':update_user,'update_profile':update_profile})
 
 def vote(request, project_id):
     project=get_object_or_404(Project, pk=project_id)
@@ -131,6 +123,21 @@ def search_project(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'search.html', {"message": message})
+
+def update_settings(request):
+    update_user=UpdateUser(request.POST,instance=request.user)
+    update_profile=UpdateProfile(request.POST,request.FILES,instance=request.user.profile)
+    if update_user.is_valid() and update_profile.is_valid():
+        update_user.save()
+        update_profile.save()
+        
+        messages.success(request, 'Profile Updated Successfully')
+        return redirect('profile')
+    
+    else:
+        update_user=UpdateUser(instance=request.user)
+        update_profile=UpdateProfile(instance=request.user.profile)
+    return render(request, 'project/update_profile.html',{'update_user':update_user,'update_profile':update_profile})
 
 # Api views
 def api(request):
