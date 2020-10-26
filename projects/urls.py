@@ -15,8 +15,11 @@ urlpatterns=[
     url(r'^user/<int:user_id>', views.posted_by, name='posted_by'),
     url(r'^update/user/',views.update_settings, name='update_settings'),
     url(r'^project/<int:project_id>/vote/',views.vote, name='vote'),
-
-
+    url(r'^api/', views.api, name='api'),
+    url(r'^api/project/', views.ProjectList.as_view()),
+    url(r'^api/users/', views.UserList.as_view()),
+    url(r'^api/project/<int:pk>/',views.ProjectDescription.as_view()),
+    url(r'^api/user/<int:pk>/',views.UserDescription.as_view()),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
