@@ -13,6 +13,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 
+
 # Views
 # Index view
 def index(request):
@@ -25,7 +26,7 @@ def profile(request):
     return render(request,'project/profile.html')
 
 #specific project
-def project(request, project_id):
+def project(request,):
     project=get_object_or_404(Project,pk=project_id)
     votes=Votes()
     votes_list=project.votes_set.all()
@@ -86,7 +87,7 @@ def vote(request, project_id):
         vote.project=project
         vote.save() 
         messages.success(request,'Votes Successfully submitted')
-        return HttpResponseRedirect(reverse('project:project',  args=(project.id,)))
+        return HttpResponseRedirect(reverse('project',  args=(project.id,)))
     
     else:
         messages.warning(request,'ERROR! Voting Range is from 0-10')
@@ -113,3 +114,78 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/registration_form.html', {'form': form, 'name':name})
+
+# Api views
+class ProjectList(APIView):
+    def get(self,response,format=None):
+        projects=Project.objects.all()
+        serializer=ProjectSerailizer(projects,many=True)
+        return Response(serializer.data)
+    
+    @login_required
+    def post(self,request,format=None):
+        permission_classes=(IsAdminOrReadOnly,)
+        serializer=ProjectSerailizer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+        permission_classes=(IsAdminOrReadOnly,)
+
+class UserList(APIView):
+    def get(self,response,format=None):
+        users=User.objects.all()
+        serializer=UserSerializer(users,many=True)
+        return Response(serializer.data)
+ 
+ # Gets project by id 
+class ProjectDescription(APIView):
+    permission_classes=(IsAdminOrReadOnly,)  
+    def get_project(self,pk):
+        return get_object_or_404(Project,pk=pk)
+    # gets project by id
+    def get(self, request, pk ,format=None):
+        project= self.get_project(pk)
+        serializer=ProjectSerailizer(project)
+        return Response(serializer.data)
+    # updates a specific project
+    def put(self, request,pk, format=None):
+        project=self.get_project(pk)
+        serializer=ProjectSerailizer(project,request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # Deletes a pjoect 
+    def delete(self,request,pk,format=None):
+        project=self.get_project(pk)
+        project.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
+# Gets User by id     
+class UserDescription(APIView):
+    permission_classes=(IsAdminOrReadOnly,)  
+    def get_user(self,pk):
+        return get_object_or_404(User,pk=pk)
+    # Gets user by id
+    def get(self, request, pk ,format=None):
+        user= self.get_user(pk)
+        serializer=UserSerializer(user)
+        return Response(serializer.data)
+    # Updates a specific user
+    def put(self, request,pk, format=None):
+        user=self.get_user(pk)
+        serializer=UserSerializer(user,request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # Deletes a user   
+    def delete(self,request,pk,format=None):
+        user=self.get_user(pk)
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
