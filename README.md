@@ -39,10 +39,10 @@ Open your editor and run the cloned repository and install the modules below to 
 ## Setup
 To run this project, use the live link in the GitHub repo:
 The live link to the project is provided below.
-[https://nyururuawards.herokuapp.com/]
+[https://moringaawards.herokuapp.com/]
 
 
-https://nyururuawards.herokuapp.com/
+https://moringaawards.herokuapp.com/
 
 
 ## Contributing
