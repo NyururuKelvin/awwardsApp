@@ -124,7 +124,7 @@ def search_project(request):
         message = "You haven't searched for any term"
         return render(request, 'search.html', {"message": message})
 
-def update_settings(request):
+def update_profile(request):
     update_user=UpdateUser(request.POST,instance=request.user)
     update_profile=UpdateProfile(request.POST,request.FILES,instance=request.user.profile)
     if update_user.is_valid() and update_profile.is_valid():

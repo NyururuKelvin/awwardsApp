@@ -13,7 +13,7 @@ urlpatterns=[
     url(r'^user/profile', views.profile, name='profile'),
     url(r'^project/<int:project_id>/', views.project, name='project'),
     url(r'^user/<int:user_id>', views.posted_by, name='posted_by'),
-    url(r'^update/user/',views.update_settings, name='update_settings'),
+    url(r'^update/user/',views.update_profile, name='update_profile'),
     url(r'^project/<int:project_id>/vote/',views.vote, name='vote'),
     url(r'^api/', views.api, name='api'),
     url(r'^api/project/', views.ProjectList.as_view()),
