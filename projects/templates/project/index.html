@@ -150,8 +150,8 @@
                                     <h3><a href="" style="color: black;">{{project.title}}</a></h3>
                                     <h3> By: <a href="{% url 'profile' %}" style="color: black;">{{project.user.username}}</a></h3>
                                     <h6 class="float-right" style="color: black;">From: {{project.location}}</h6>
-                                    <a style="padding: 1.5px; margin-bottom: 1%;" href="" class="btn btn-primary"><i class="fas fa-info-circle"></i> VIEW DETAILS</a>
-                                    <a style="padding: 1.5px; margin-bottom: 1%; margin-left: 5px;" href="#" class="btn btn-danger"><i class="fa fa-star" aria-hidden="true"></i> RATE SITE</a>
+                                    <a style="padding: 1.5px; margin-bottom: 1%;" href="{{project.link}}" class="btn btn-primary"><i class="fas fa-info-circle"></i> VIEW SITE</a>
+                                    <a style="padding: 1.5px; margin-bottom: 1%; margin-left: 5px;" href="{% url 'project' %}" class="btn btn-danger"><i class="fa fa-star" aria-hidden="true"></i> RATE SITE</a>
                                 </div>
                             </div>
                         </div>

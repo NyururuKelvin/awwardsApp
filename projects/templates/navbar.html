@@ -47,9 +47,17 @@
           </div>
 
           <div class="box-right">
-              <div class="item bt-search " id="js-search-container">
-                <svg class="ico-svg" viewbox="0 0 14 14"><use xlink:href="https://www.awwwards.com/assets/images/sprite-icons.svg#search"></use></svg>
-              </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+              <ul class="nav navbar-nav ">
+                <div class="search_bar">
+                  <form class="form-inline ml-auto" action="{% url 'search' %}" method="GET">
+                    <div class="input-group">
+                      <input type="text" class="form-control" placeholder="Search Project ~Hit[Enter]" name="project" style="padding: 2px; border-radius: 16px;">  
+                    </div>
+                  </form>
+                </div>
+              </ul>
+            </div>
 
             <div id="js-user-details" class="item logged has-tablet" data-user='{&quot;username&quot;:&quot;NYURURU&quot;,&quot;id&quot;:984601,&quot;displayName&quot;:&quot;Amimo&quot;}'>
               <div class="bt-dropdown bt-menu-user">

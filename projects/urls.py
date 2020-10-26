@@ -20,6 +20,7 @@ urlpatterns=[
     url(r'^api/users/', views.UserList.as_view()),
     url(r'^api/project/<int:pk>/',views.ProjectDescription.as_view()),
     url(r'^api/user/<int:pk>/',views.UserDescription.as_view()),
+    url(r'^search/', views.search_project, name='search'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

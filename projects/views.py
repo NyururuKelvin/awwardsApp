@@ -20,7 +20,7 @@ def index(request):
     # Default view
     projects = Project.objects.all()
     profiles = Profile.objects.all()
-    return render(request,'project/index.html', {'projects':projects, 'profiles':profiles})
+    return render(request,'project/project.html', {'projects':projects, 'profiles':profiles})
 
 # User profile view
 def profile(request):
@@ -28,9 +28,9 @@ def profile(request):
 
 #specific project
 def project(request,):
-    project=get_object_or_404(Project,pk=project_id)
+    project=Project.objects.all()
     votes=Votes()
-    votes_list=project.votes_set.all()
+    votes_list=vote.votes_set.all()
     for vote in votes_list:
         vote_mean=[]
         usability=vote.usability
@@ -115,6 +115,22 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/registration_form.html', {'form': form, 'name':name})
+
+def search_project(request):
+    """
+    Function that searches for projects
+    """
+    if 'project' in request.GET and request.GET["project"]:
+        search_term = request.GET.get("project")
+        searched_projects = Project.objects.filter(title__icontains=search_term)
+        message = f"{search_term}"
+        projects = Project.objects.all()
+        
+        return render(request, 'project/search.html', {"message": message, "projects": searched_projects})
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'search.html', {"message": message})
 
 # Api views
 def api(request):

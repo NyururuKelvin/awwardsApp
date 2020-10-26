@@ -22,6 +22,11 @@ class Project(models.Model):
     def get_project(cls, id):
         project=Project.objects.get(pk=id)
         return project
+
+    @classmethod
+    def search_project(cls, search_term):
+        user = cls.objects.filter(title__icontains=search_term)
+        return project 
     
     @classmethod   
     def delete_project(cls,delete_id):

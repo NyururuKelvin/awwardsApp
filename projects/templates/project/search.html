@@ -1,0 +1,42 @@
+{%extends 'project/base.html'%}
+{% load bootstrap3 %}
+{% load static %}
+
+{% block styles %}
+  {% bootstrap_css %}
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+{{block.super}}
+<div class="container">
+
+  <div class="row">
+    {% if projects %}
+    <legend class="header" style="color: rgb(20, 20, 20); text-align: center;">Searches for {{message}} </legend>
+    {% else %}
+    <legend class="header" style="color: rgb(12, 12, 12); text-align: center;">FOUND 0 PROJECTS</legend>
+    {% endif %}
+
+  </div>
+  <div class="row">
+    {% for project in projects %}
+    <div class="col-lg-4 col-md-4 mb-2" style="padding-right: 10px;">
+        <div class="card" style="margin-left: 0px;">
+            <a href="#"><img src="{{project.image.url}}" class="card-img-top img-responsive index_image" id="image" alt="IMAGE" title="" style="height:50vh; width: 100%;" ></a>
+            <div class="card-body">
+                <div class="card-body">
+                    <h5 class="card-title">{{image.title}}</h5>
+                    <p>By <a href="{% url 'profile' %}">{{project.user.username}}</a><span class="float-right"> From {{project.location}}</span></p>
+                    <div class="text-center"><a class="btn button text-center btn-block"  href="{{project.link}}">View site details</a></div>
+                </div>
+            </div>  
+        </div>               
+    </div>
+    {% endfor %}
+
+  </div>
+
+</div>
+{% endblock %}
