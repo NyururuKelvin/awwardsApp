@@ -19,7 +19,8 @@ from django.contrib import messages
 def index(request):
     # Default view
     projects = Project.objects.all()
-    return render(request,'project/index.html', {'projects':projects})
+    profiles = Profile.objects.all()
+    return render(request,'project/index.html', {'projects':projects, 'profiles':profiles})
 
 # User profile view
 def profile(request):
@@ -116,6 +117,9 @@ def signup(request):
     return render(request, 'registration/registration_form.html', {'form': form, 'name':name})
 
 # Api views
+def api(request):
+    return render(request,'project/api.html')
+
 class ProjectList(APIView):
     def get(self,response,format=None):
         projects=Project.objects.all()
