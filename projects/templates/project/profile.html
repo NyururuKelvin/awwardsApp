@@ -1,0 +1,75 @@
+
+{% extends 'project/base.html'%}
+{% load bootstrap3 %} 
+{% load static %}
+{% block title%}
+{{user.username}}
+{% endblock%}
+
+{% block styles %}
+        {% bootstrap_css %}
+        <link rel="stylesheet" href="{%static 'css/index.css'%}"  >
+        <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Poppins'>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+{% endblock %}
+
+{% block content%}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 col-lg-2"></div>
+        <div class="col-md-8 col-lg-8 col-sm-10">
+            <div class="card  mt-3">
+                <!-- new conatiner -->
+                <div class="container-fluid" >
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-xs-12 ml-2 mt-2 ">
+                            <img src="{{user.profile.image.url}}" class="img-circle rounded-circle image-fluid" alt="..." style="width: 220px; height: 220px;">
+                        </div>
+                    
+                        <div class="col-lg-6 col-md-6 col-xs-12 mb-2" style="font-size: 0.8rem;">
+                            <h2 class="card-title">{{user.username}}</h2>
+                            <p class="card-text">Email Adress: {{user.email}}</p>
+                            {% if user.profile.company%}
+                            <p class="card-text">Location: {{user.profile.company}}</p>
+                            {%endif%} 
+                            {% if user.profile.location%}
+                            <p class="card-text">Location: {{user.profile.location}}</p>
+                            {%endif%} 
+                            {% if user.profile.contact%}
+                            <p class="card-text">Contact Me: {{user.profile.contact}}</p>
+                            {%endif%} 
+                            {% if user.profile.bio%}
+                            <p class="card-text">About Me: {{user.profile.bio}}</p>
+                            {%endif%} 
+                
+                            <a href="{% url  'update_settings' %}" class="btn btn-success btn-sm"><small>Update Settings</small></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-lg-2"></div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-lg-12 col-md-12" >
+            <div class="row">
+                {%for image in user.project_set.all%}
+                <div class="col-lg-4 col-md-4 mb-2" style="padding-right: 10px;">
+                    <div class="card" style="margin-left: 0px;">
+                        <a href="#"><img src="{{image.image.url}}" class="card-img-top img-responsive index_image" id="image" alt="IMAGE" title="" style="height:50vh; width: 100%;" ></a>
+                        <div class="card-body">
+                            <div class="card-body">
+                                <h5 class="card-title">{{image.title}}</h5>
+                                <p>By <a href="{% url 'posted_by' image.user.id%}">{{image.user.username}}</a><span class="float-right">From {{image.location}}</span></p>
+                                <div class="text-center"><a class="btn button text-center btn-block"  href="{{image.link}}">View site details</a></div>
+                            </div>
+                        </div>  
+                    </div>               
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

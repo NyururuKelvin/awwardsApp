@@ -2,7 +2,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.http  import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Project,Votes
-from .forms import PostProject,UpdateUser,UpdateProfile,Votes,SignUpForm
+from .forms import PostProject,UpdateUser,UpdateProfile,Votes
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -50,12 +50,31 @@ def new_project(request):
             project=form.save(commit=False)
             project.user=current_user
             project.save()
-        return redirect('project:project_index')
+        return redirect('home')
     
     else:
         form=PostProject()
         
     return render(request,'project/new_project.html',{'form':form})
+
+def posted_by(request, user_id):
+    user=get_object_or_404(User,pk=user_id)
+    return render(request,'project/posted_by.html', {'user':user})
+
+def update_settings(request):
+    update_user=UpdateUser(request.POST,instance=request.user)
+    update_profile=UpdateProfile(request.POST,request.FILES,instance=request.user.profile)
+    if update_user.is_valid() and update_profile.is_valid():
+        update_user.save()
+        update_profile.save()
+        
+        messages.success(request, 'Profile Updated Successfully')
+        return redirect('profile')
+    
+    else:
+        update_user=UpdateUser(instance=request.user)
+        update_profile=UpdateProfile(instance=request.user.profile)
+    return render(request, 'project/update_profile.html',{'update_user':update_user,'update_profile':update_profile})
 
 def vote(request, project_id):
     project=get_object_or_404(Project, pk=project_id)

@@ -140,26 +140,18 @@
     <div class="container">
         <div class="row">
             {%for project in projects%}
-            <div class="col-md-4">
+            <div class="col-md-4" style="margin-bottom: 2%;">
                 <div class="card" style="background-color: rgb(198, 201, 200); border-radius: 8px;">
-                    <a href=""><img style="border-radius: 8px;" class="card-img-top" src="{{project.image.url}}" alt="Card image cap"></a>
+                    <a href=""><img style="border-radius: 8px; height: 40vh;" class="card-img-top" src="{{project.image.url}}" alt="Card image cap"></a>
                     <div class="card-body">
                         <div class="box-info">
                             <div class="content">
                                 <div class="row">
                                     <h3><a href="">{{project.title}}</a></h3>
+                                    <h3> By: <a href="{% url 'profile' %}">{{project.user.username}}</a></h3>
+                                    <div class="box-left" style="color: black;">From: {{project.location}}</div>
+                                    <a style="padding: 1.5px;" href="#" class="btn btn-primary">VIEW DETAILS</a>
                                 </div>
-                                <div class="row">
-                                    <h3> By: <a href="">{{project.user.username}}</a></h3>
-                                </div>
-                                <div class="row row-2col">
-                                    <div class="box-left" style="color: black;">From {{project.location}}</div>
-                                </div>
-                
-                                <div class="box-right" style="color: black;">
-                                    {{project.posted}}
-                                </div>
-                                <a style="padding: 1.5px;" href="#" class="btn btn-primary">VIEW DETAILS</a>
                             </div>
                         </div>
                     </div>
