@@ -25,7 +25,7 @@ def profile(request):
     return render(request,'project/profile.html')
 
 #specific project
-def project(request,project_id):
+def project(request, project_id):
     project=get_object_or_404(Project,pk=project_id)
     votes=Votes()
     votes_list=project.votes_set.all()
