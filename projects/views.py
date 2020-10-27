@@ -32,21 +32,21 @@ def profile(request):
 def project(request, id):
     project= Project.objects.get(id=id)
     votes= Votes.objects.all()
-    if request.method=='POST':
-        form=Voting(request.POST,request.FILES)
-        if form.is_valid():
+    # import pdb; pdb.set_trace()
+    # if request.method=='POST':
+    #     form=Voting(request.POST,request.FILES)
+    #     if form.is_valid():
 
-            return redirect('project')
+    #         return redirect('project',id)
     
-    else:
-        form=Voting()
+    # else:
+    form=Voting()
 
     return render(request, 'project/project.html',{'project':project, 'votes':votes,'form':form})
 
 def vote(request, id):
     project= Project.objects.get(id=id)
-    votes=Votes()
-    votes=Votes(request.POST)
+    votes=Voting(request.POST)
     if votes.is_valid():
         vote=votes.save(commit=False)
         vote.user=request.user
@@ -58,7 +58,7 @@ def vote(request, id):
     else:
         messages.warning(request,'ERROR! Voting Range is from 0-10')
         votes=Votes()     
-    return render(request, 'project/project.html',{'project':project,'votes':votes})
+    return render(request, 'project/project.html', locals())
 
 @login_required
 def new_project(request):

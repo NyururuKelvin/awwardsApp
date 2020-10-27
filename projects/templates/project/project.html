@@ -25,7 +25,7 @@
                   </p>
                   <div class="collapse" id="collapseExample">
                     <div class="card card-body">
-                        <form action="{% url 'vote' project.id %}" method="">
+                        <form action="{% url 'vote' project.id %}" method="post">
                         {% csrf_token%}
 
                         {% bootstrap_form form%}
