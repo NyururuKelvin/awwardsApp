@@ -2,7 +2,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.http  import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Project,Votes
-from .forms import PostProject,UpdateUser,UpdateProfile,SignUpForm,Votes
+from .forms import PostProject,UpdateUser,UpdateProfile,SignUpForm,Voting
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -31,17 +31,17 @@ def profile(request):
 @login_required
 def project(request, id):
     project= Project.objects.get(id=id)
-    votes=Votes()
+    votes= Votes.objects.all()
     if request.method=='POST':
-        form=Votes(request.POST,request.FILES)
+        form=Voting(request.POST,request.FILES)
         if form.is_valid():
 
             return redirect('project')
     
     else:
-        form=Votes()
+        form=Voting()
 
-    return render(request, 'project/project.html',{'project':project, 'form':form})
+    return render(request, 'project/project.html',{'project':project, 'votes':votes,'form':form})
 
 def vote(request, id):
     project= Project.objects.get(id=id)

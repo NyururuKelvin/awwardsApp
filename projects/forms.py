@@ -34,7 +34,7 @@ class PostProject(forms.ModelForm):
         model=Project
         fields=['image','title','description','link','location']
         
-class Votes(forms.ModelForm):
+class Voting(forms.ModelForm):
     class Meta:
         model=Votes
         fields=['usability','design','content']
