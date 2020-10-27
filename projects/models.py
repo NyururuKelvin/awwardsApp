@@ -43,6 +43,8 @@ class Votes(models.Model):
     def __str__(self):
         return self.user.username
     
+    def save_vote(self):
+        self.save()
     
 class Profile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE)

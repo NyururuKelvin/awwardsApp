@@ -32,19 +32,33 @@ def profile(request):
 def project(request, id):
     project= Project.objects.get(id=id)
     votes=Votes()
-    current_user=request.user
     if request.method=='POST':
         form=Votes(request.POST,request.FILES)
         if form.is_valid():
-            vote=form.save(commit=False)
-            vote.user=current_user
-            vote.save()
-        return redirect('project')
+
+            return redirect('project')
     
     else:
         form=Votes()
 
-    return render(request, 'project/project.html',{'project':project,'votes':votes, 'form':form,})
+    return render(request, 'project/project.html',{'project':project, 'form':form})
+
+def vote(request, id):
+    project= Project.objects.get(id=id)
+    votes=Votes()
+    votes=Votes(request.POST)
+    if votes.is_valid():
+        vote=votes.save(commit=False)
+        vote.user=request.user
+        vote.project=project
+        vote.save() 
+        messages.success(request,'Votes Successfully submitted')
+        return HttpResponseRedirect(reverse('project',  args=(id)))
+    
+    else:
+        messages.warning(request,'ERROR! Voting Range is from 0-10')
+        votes=Votes()     
+    return render(request, 'project/project.html',{'project':project,'votes':votes})
 
 @login_required
 def new_project(request):
@@ -66,23 +80,6 @@ def new_project(request):
 def posted_by(request, user_id):
     user=get_object_or_404(User,pk=user_id)
     return render(request,'project/posted_by.html', {'user':user})
-
-def vote(request, project_id):
-    project=get_object_or_404(Project, pk=project_id)
-    votes=Votes()
-    votes=Votes(request.POST)
-    if votes.is_valid():
-        vote=votes.save(commit=False)
-        vote.user=request.user
-        vote.project=project
-        vote.save() 
-        messages.success(request,'Votes Successfully submitted')
-        return HttpResponseRedirect(reverse('project',  args=(project.id,)))
-    
-    else:
-        messages.warning(request,'ERROR! Voting Range is from 0-10')
-        votes=Votes()     
-    return render(request, 'project/project.html',{'project':project,'votes':votes})
 
 def signup(request):
     name = "Sign Up"
