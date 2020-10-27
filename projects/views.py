@@ -32,14 +32,6 @@ def profile(request):
 def project(request, id):
     project= Project.objects.get(id=id)
     votes= Votes.objects.all()
-    # import pdb; pdb.set_trace()
-    # if request.method=='POST':
-    #     form=Voting(request.POST,request.FILES)
-    #     if form.is_valid():
-
-    #         return redirect('project',id)
-    
-    # else:
     form=Voting()
 
     return render(request, 'project/project.html',{'project':project, 'votes':votes,'form':form})
