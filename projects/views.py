@@ -29,25 +29,22 @@ def profile(request):
 
 #specific project
 @login_required
-def project(request, project_id):
-    project=get_object_or_404(Project,pk=project_id)
+def project(request, id):
+    project= Project.objects.get(id=id)
     votes=Votes()
-    votes_list=project.votes_set.all()
-    for vote in votes_list:
-        vote_mean=[]
-        usability=vote.usability
-        vote_mean.append(usability)
-        content=vote.content
-        vote_mean.append(content)
-        design=vote.design
-        vote_mean.append(design)
-        mean=np.mean(vote_mean)
-        mean=round(mean,2)
-        if mean:
-            return render(request, 'project/project.html',{'project':project,'votes':votes,'votes_list':votes_list,'mean':mean})
+    current_user=request.user
+    if request.method=='POST':
+        form=Votes(request.POST,request.FILES)
+        if form.is_valid():
+            vote=form.save(commit=False)
+            vote.user=current_user
+            vote.save()
+        return redirect('project')
+    
+    else:
+        form=Votes()
 
-        
-    return render(request, 'project/project.html',{'project':project,'votes':votes,'votes_list':votes_list})
+    return render(request, 'project/project.html',{'project':project,'votes':votes, 'form':form,})
 
 @login_required
 def new_project(request):
