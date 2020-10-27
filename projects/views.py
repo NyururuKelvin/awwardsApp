@@ -2,7 +2,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.http  import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Project,Votes
-from .forms import PostProject,UpdateUser,UpdateProfile,SignUpForm
+from .forms import PostProject,UpdateUser,UpdateProfile,SignUpForm,Votes
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -29,7 +29,7 @@ def profile(request):
 
 #specific project
 @login_required
-def project(request,project_id):
+def project(request, project_id):
     project=get_object_or_404(Project,pk=project_id)
     votes=Votes()
     votes_list=project.votes_set.all()

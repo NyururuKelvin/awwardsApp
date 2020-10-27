@@ -25,10 +25,11 @@
                   </p>
                   <div class="collapse" id="collapseExample">
                     <div class="card card-body">
-                        <form action="{% url 'vote' %}" method="POST">
+                        <form action="{% url 'vote' %}" method="post">
                         {% csrf_token%}
-                            {% bootstrap_form votes%}
-                            <input type="submit" value="Vote" class="btn btn-outline-success btn-sm">
+
+                        {% bootstrap_form form%}
+                        <input type="submit" value="Vote" class="btn btn-outline-success btn-sm">
                         </form>
                     </div>
                   </div>

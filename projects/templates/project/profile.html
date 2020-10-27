@@ -30,16 +30,16 @@
                             <h2 class="card-title">{{user.username}}</h2>
                             <p class="card-text">Email Adress: {{user.email}}</p>
                             {% if user.profile.company%}
-                            <p class="card-text">Location: {{user.profile.company}}</p>
+                            <p class="card-text">Institution: {{user.profile.company}}</p>
                             {%endif%} 
                             {% if user.profile.location%}
                             <p class="card-text">Location: {{user.profile.location}}</p>
                             {%endif%} 
                             {% if user.profile.contact%}
-                            <p class="card-text">Contact Me: {{user.profile.contact}}</p>
+                            <p class="card-text">Contact: {{user.profile.contact}}</p>
                             {%endif%} 
                             {% if user.profile.bio%}
-                            <p class="card-text">About Me: {{user.profile.bio}}</p>
+                            <p class="card-text">Bio: {{user.profile.bio}}</p>
                             {%endif%} 
                 
                             <a href="{% url  'update_profile' %}" class="btn btn-success btn-sm">Update Profile</a>
