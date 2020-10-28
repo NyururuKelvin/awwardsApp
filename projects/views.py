@@ -18,7 +18,7 @@ from django.contrib import messages
 # Index view
 def index(request):
     # Default view
-    projects = Project.objects.all()
+    projects = Project.objects.order_by('-posted')
     profiles = Profile.objects.all()
     return render(request,'project/index.html', {'projects':projects, 'profiles':profiles})
 
