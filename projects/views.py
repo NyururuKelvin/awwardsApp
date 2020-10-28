@@ -122,19 +122,20 @@ def search_project(request):
         return render(request, 'search.html', {"message": message})
 
 def update_profile(request):
+    profile = Profile(user=request.user)
     update_user=UpdateUser(request.POST,instance=request.user)
-    update_profile=UpdateProfile(request.POST,request.FILES,instance=request.user.profile)
-    if update_user.is_valid() and update_profile.is_valid():
+    update_prof=UpdateProfile(request.POST,request.FILES,instance=profile)
+    if update_user.is_valid() and update_prof.is_valid():
         update_user.save()
-        update_profile.save()
+        update_prof.save()
         
         messages.success(request, 'Profile Updated Successfully')
         return redirect('profile')
     
     else:
         update_user=UpdateUser(instance=request.user)
-        update_profile=UpdateProfile(instance=request.user.profile)
-    return render(request, 'project/update_profile.html',{'update_user':update_user,'update_profile':update_profile})
+        update_prof=UpdateProfile(instance=profile)
+    return render(request, 'project/update_profile.html',{'update_user':update_user,'update_prof':update_prof})
 
 # Api views
 def api(request):
