@@ -43,23 +43,12 @@ def vote(request, id):
         vote=votes.save(commit=False)
         vote.user=request.user
         vote.project=project
-        vote.save()
-
-        vote_mean = []
-        usability=vote.usability
-        vote_mean.append(usability)
-        content=vote.content
-        vote_mean.append(content)
-        design=vote.design
-        vote_mean.append(design)
-
-        mean=np.mean(vote_mean)
-        mean=round(mean,2)
-
-        if mean:
-            return render(request, 'project/project.html', locals())
+        vote.save() 
+        messages.success(request,'Votes Successfully submitted')
+        return HttpResponseRedirect(reverse('project',  args=(id)))
     
     else:
+        messages.warning(request,'ERROR! Voting Range is from 0-10')
         votes=Votes()     
     return render(request, 'project/project.html', locals())
 
@@ -123,19 +112,20 @@ def search_project(request):
 
 def update_profile(request):
     profile = Profile(user=request.user)
+
     update_user=UpdateUser(request.POST,instance=request.user)
-    update_prof=UpdateProfile(request.POST,request.FILES,instance=profile)
-    if update_user.is_valid() and update_prof.is_valid():
+    update_profile=UpdateProfile(request.POST,request.FILES,instance=profile)
+    if update_user.is_valid() and update_profile.is_valid():
         update_user.save()
-        update_prof.save()
+        update_profile.save()
         
         messages.success(request, 'Profile Updated Successfully')
         return redirect('profile')
     
     else:
         update_user=UpdateUser(instance=request.user)
-        update_prof=UpdateProfile(instance=profile)
-    return render(request, 'project/update_profile.html',{'update_user':update_user,'update_prof':update_prof})
+        update_profile=UpdateProfile(instance=profile)
+    return render(request, 'project/update_profile.html',{'update_user':update_user,'update_profile':update_profile})
 
 # Api views
 def api(request):
