@@ -142,18 +142,16 @@
             <legend style="text-align: center;">PROJECTS</legend>
             {%for project in projects%}
             <div class="col-md-4" style="margin-bottom: 1%;">
-                <div class="card" style="background-color: rgb(198, 201, 200); border-radius: 8px;">
-                    <a href=""><img style="border-radius: 8px; height: 40vh; width: 100%;" class="card-img-top" src="{{project.image.url}}" alt="Card image cap"></a>
+                <div class="card" style="background-color: white;">
+                    <a href=""><img style="height: 40vh; width: 100%;" class="card-img-top" src="{{project.image.url}}" alt="Card image cap"></a>
                     <div class="card-body">
                         <div class="box-info">
-                            <div class="content">
-                                <div class="row">
-                                    <h3><a href="" style="color: black;">{{project.title}}</a></h3>
-                                    <h3> By: <a href="{% url 'profile' %}" style="color: black;">{{project.user.username}}</a></h3>
-                                    <h6 class="float-right" style="color: black;">From: {{project.location}}</h6>
-                                    <a style="padding: 1.5px; margin-bottom: 1%;" href="{{project.link}}" class="btn btn-primary"><i class="fas fa-info-circle"></i> VIEW SITE</a>
-                                    <a style="padding: 1.5px; margin-bottom: 1%; margin-left: 5px;" href="{% url 'project' project.id %}" class="btn btn-danger"><i class="fa fa-star" aria-hidden="true"></i> RATE SITE</a>
-                                </div>
+                            <div class="row">
+                                <h3><a href="" style="color: black;">{{project.title}}</a></h3>
+                                <h3 style="color: black;"> By: <a href="{% url 'profile' %}" style="color: black;">{{project.user.username}}</a></h3>
+                                <h6 class="float-right" style="color: black;">From: {{project.location}}</h6>
+                                <a style="padding: 1.5px; margin-bottom: 1%;" href="{{project.link}}" class="btn btn-primary"><i class="fas fa-info-circle"></i> VIEW SITE</a>
+                                <a style="padding: 1.5px; margin-bottom: 1%; margin-left: 5px;" href="{% url 'project' project.id %}" class="btn btn-danger"><i class="fa fa-star" aria-hidden="true"></i> RATE SITE</a>
                             </div>
                         </div>
                     </div>
