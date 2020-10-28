@@ -43,12 +43,23 @@ def vote(request, id):
         vote=votes.save(commit=False)
         vote.user=request.user
         vote.project=project
-        vote.save() 
-        messages.success(request,'Votes Successfully submitted')
-        return HttpResponseRedirect(reverse('project',  args=(id)))
+        vote.save()
+
+        vote_mean = []
+        usability=vote.usability
+        vote_mean.append(usability)
+        content=vote.content
+        vote_mean.append(content)
+        design=vote.design
+        vote_mean.append(design)
+
+        mean=np.mean(vote_mean)
+        mean=round(mean,2)
+
+        if mean:
+            return render(request, 'project/project.html', locals())
     
     else:
-        messages.warning(request,'ERROR! Voting Range is from 0-10')
         votes=Votes()     
     return render(request, 'project/project.html', locals())
 
