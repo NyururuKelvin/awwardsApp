@@ -12,7 +12,7 @@ from .permission import IsAdminOrReadOnly
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
-
+import numpy as np
 
 # Views
 # Index view
@@ -30,14 +30,29 @@ def profile(request):
 #specific project
 @login_required
 def project(request, id):
+    form = Voting
     project= Project.objects.get(id=id)
-    votes= Votes.objects.all()
-    form=Voting()
+    votes= Voting()
+    votes_list=project.votes_set.all()
+    for vote in votes_list:
+            vote_mean=[]
+            usability=vote.usability
+            vote_mean.append(usability)
+            content=vote.content
+            vote_mean.append(content)
+            design=vote.design
+            vote_mean.append(design)
+            mean=np.mean(vote_mean)
+            mean=round(mean,2)
+            if mean:
+                return render(request, 'project/project.html',{'project':project,'votes':votes,'votes_list':votes_list,'mean':mean,'form':form})
 
-    return render(request, 'project/project.html',{'project':project, 'votes':votes,'form':form})
+    return render(request, 'project/project.html',{'project':project,'votes':votes,'votes_list':votes_list, 'form':form})
 
+@login_required
 def vote(request, id):
     project= Project.objects.get(id=id)
+    votes=Voting()
     votes=Voting(request.POST)
     if votes.is_valid():
         vote=votes.save(commit=False)
@@ -49,7 +64,7 @@ def vote(request, id):
     
     else:
         messages.warning(request,'ERROR! Voting Range is from 0-10')
-        votes=Votes()     
+        votes=Voting()     
     return render(request, 'project/project.html', locals())
 
 @login_required

@@ -40,8 +40,8 @@
     <div class="row mb-4"> <br>
         <legend style="text-align: center; margin-bottom: 0%;">RATINGS</legend>
     <div class="col-lg-12 col-md-12">
-        {%if votes%}
-            {% for vote in votes%}
+        {%if votes_list%}
+            {% for vote in votes_list%}
                 <div>
                     <table class="table">
                         <thead class="thead" style="background-color: #60b4df;">
@@ -59,7 +59,7 @@
                             <td scope="col">{{vote.usability}}</td>
                             <td scope="col">{{vote.content}}</td>
                             <td scope="col">{{vote.design}}</td>
-                            <td scope="col">Coming Soon</td>
+                            <td scope="col">{{mean}}</td>
                         </tr>
                         </tbody>
                     </table>
