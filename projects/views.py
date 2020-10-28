@@ -16,6 +16,7 @@ import numpy as np
 
 # Views
 # Index view
+@login_required
 def index(request):
     # Default view
     projects = Project.objects.order_by('-posted')
